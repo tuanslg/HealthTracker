@@ -6,7 +6,6 @@ import {
   Platform,
   SafeAreaView,
   ScrollView,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -100,48 +99,58 @@ export default function Dashboard() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="flex-1 bg-slate-50">
       <KeyboardAvoidingView
-        style={{ flex: 1 }}
+        className="flex-1"
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
         <ScrollView
-          contentContainerStyle={styles.scrollContent}
+          contentContainerClassName="p-6 pt-10"
           keyboardShouldPersistTaps="handled"
         >
           {/* Header Section */}
-          <View style={styles.header}>
+          <View className="flex-row justify-between items-center mb-8">
             <View>
-              <Text style={styles.greeting}>Good Morning!</Text>
-              <Text style={styles.subtitle}>Let's check your health today</Text>
+              <Text className="text-2xl font-bold text-slate-800">
+                Good Morning!
+              </Text>
+              <Text className="text-base text-slate-500 mt-1">
+                Let's check your health today
+              </Text>
             </View>
-            <TouchableOpacity style={styles.profileAvatar}>
-              <Text style={styles.avatarText}>ME</Text>
+            <TouchableOpacity className="w-12 h-12 rounded-full bg-blue-100 justify-center items-center">
+              <Text className="text-blue-500 font-bold text-base">ME</Text>
             </TouchableOpacity>
           </View>
 
           {/* BMI Calculator Card */}
-          <View style={styles.bmiCard}>
-            <View style={styles.bmiHeader}>
+          <View className="bg-white rounded-3xl p-6 mb-6 shadow-sm">
+            <View className="flex-row items-center mb-5">
               <Activity color="#6366F1" size={24} />
-              <Text style={styles.bmiTitle}>Body Mass Index (BMI)</Text>
+              <Text className="text-lg font-bold text-slate-800 ml-2">
+                Body Mass Index (BMI)
+              </Text>
             </View>
 
-            <View style={styles.inputRow}>
-              <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Weight (kg)</Text>
+            <View className="flex-row justify-between mb-4">
+              <View className="flex-1 mx-1">
+                <Text className="text-sm text-slate-500 mb-2 font-medium">
+                  Weight (kg)
+                </Text>
                 <TextInput
-                  style={styles.input}
+                  className="bg-slate-100 rounded-xl p-4 text-base text-slate-800 font-semibold"
                   placeholder="e.g. 68"
                   keyboardType="numeric"
                   value={weight}
                   onChangeText={setWeight}
                 />
               </View>
-              <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Height (cm)</Text>
+              <View className="flex-1 mx-1">
+                <Text className="text-sm text-slate-500 mb-2 font-medium">
+                  Height (cm)
+                </Text>
                 <TextInput
-                  style={styles.input}
+                  className="bg-slate-100 rounded-xl p-4 text-base text-slate-800 font-semibold"
                   placeholder="e.g. 175"
                   keyboardType="numeric"
                   value={height}
@@ -151,21 +160,26 @@ export default function Dashboard() {
             </View>
 
             <TouchableOpacity
-              style={styles.calculateBtn}
+              className="bg-indigo-500 rounded-xl p-4 items-center mb-2"
               onPress={calculateBMI}
             >
-              <Text style={styles.calculateBtnText}>Calculate & Save BMI</Text>
+              <Text className="text-white text-base font-bold">
+                Calculate & Save BMI
+              </Text>
             </TouchableOpacity>
 
             {bmi && (
-              <View style={styles.bmiResultContainer}>
-                <View style={styles.bmiNumberBox}>
-                  <Text style={styles.bmiValue}>{bmi}</Text>
-                  <Text style={styles.bmiLabel}>BMI Score</Text>
+              <View className="flex-row mt-4 pt-4 border-t border-slate-100 items-center">
+                <View className="flex-1 items-start">
+                  <Text className="text-3xl font-bold text-slate-800">
+                    {bmi}
+                  </Text>
+                  <Text className="text-sm text-slate-500">BMI Score</Text>
                 </View>
-                <View style={styles.bmiStatusBox}>
+                <View className="flex-1 items-end justify-center">
                   <Text
-                    style={[styles.bmiStatusText, { color: bmiCategory.color }]}
+                    className="text-lg font-bold"
+                    style={{ color: bmiCategory.color }}
                   >
                     {bmiCategory.text}
                   </Text>
@@ -175,41 +189,45 @@ export default function Dashboard() {
           </View>
 
           {/* Highlight Card */}
-          <View style={styles.highlightCard}>
-            <View style={styles.highlightHeader}>
+          <View className="bg-blue-500 rounded-3xl p-6 mb-6 shadow-lg shadow-blue-500/30">
+            <View className="flex-row items-center mb-4">
               <Footprints color="#FFF" size={24} />
-              <Text style={styles.highlightTitle}>Daily Steps</Text>
+              <Text className="text-white text-lg font-semibold ml-2">
+                Daily Steps
+              </Text>
             </View>
-            <Text style={styles.highlightValue}>8,245</Text>
-            <Text style={styles.highlightSubtitle}>Goal: 10,000 steps</Text>
+            <Text className="text-white text-5xl font-bold mb-2">8,245</Text>
+            <Text className="text-blue-100 text-base">Goal: 10,000 steps</Text>
           </View>
 
           {/* Stats Grid */}
-          <View style={styles.statsRow}>
-            <View style={styles.statCard}>
-              <View
-                style={[styles.iconContainer, { backgroundColor: "#FEE2E2" }]}
-              >
+          <View className="flex-row justify-between mb-6">
+            <View className="flex-1 bg-white rounded-3xl p-5 mx-1.5 items-center shadow-sm">
+              <View className="w-12 h-12 rounded-full bg-red-100 justify-center items-center mb-3">
                 <Heart color="#EF4444" size={24} />
               </View>
-              <Text style={styles.statValue}>72 bpm</Text>
-              <Text style={styles.statLabel}>Heart Rate</Text>
+              <Text className="text-xl font-bold text-slate-800 mb-1">
+                72 bpm
+              </Text>
+              <Text className="text-sm text-slate-500">Heart Rate</Text>
             </View>
-            <View style={styles.statCard}>
-              <View
-                style={[styles.iconContainer, { backgroundColor: "#FEF3C7" }]}
-              >
+            <View className="flex-1 bg-white rounded-3xl p-5 mx-1.5 items-center shadow-sm">
+              <View className="w-12 h-12 rounded-full bg-amber-100 justify-center items-center mb-3">
                 <Flame color="#F59E0B" size={24} />
               </View>
-              <Text style={styles.statValue}>450 kcal</Text>
-              <Text style={styles.statLabel}>Burned</Text>
+              <Text className="text-xl font-bold text-slate-800 mb-1">
+                450 kcal
+              </Text>
+              <Text className="text-sm text-slate-500">Burned</Text>
             </View>
           </View>
 
           {/* Chart Section */}
-          <View style={styles.chartContainer}>
-            <Text style={styles.sectionTitle}>Activity This Week</Text>
-            <View style={styles.chartWrapper}>
+          <View className="bg-white rounded-3xl p-6 shadow-sm mb-4">
+            <Text className="text-lg font-bold text-slate-800 mb-5">
+              Activity This Week
+            </Text>
+            <View className="items-center">
               <BarChart
                 data={stepData}
                 barWidth={22}
@@ -229,220 +247,3 @@ export default function Dashboard() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#F8FAFC",
-  },
-  scrollContent: {
-    padding: 24,
-    paddingTop: 40,
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 32,
-  },
-  greeting: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#1E293B",
-  },
-  subtitle: {
-    fontSize: 16,
-    color: "#64748B",
-    marginTop: 4,
-  },
-  profileAvatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: "#DBEAFE",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  avatarText: {
-    color: "#3B82F6",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
-
-  // BMI Styles
-  bmiCard: {
-    backgroundColor: "#FFF",
-    borderRadius: 24,
-    padding: 24,
-    marginBottom: 24,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  bmiHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  bmiTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#1E293B",
-    marginLeft: 8,
-  },
-  inputRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 16,
-  },
-  inputContainer: {
-    flex: 1,
-    marginHorizontal: 4,
-  },
-  inputLabel: {
-    fontSize: 14,
-    color: "#64748B",
-    marginBottom: 8,
-    fontWeight: "500",
-  },
-  input: {
-    backgroundColor: "#F1F5F9",
-    borderRadius: 12,
-    padding: 16,
-    fontSize: 16,
-    color: "#1E293B",
-    fontWeight: "600",
-  },
-  calculateBtn: {
-    backgroundColor: "#6366F1",
-    borderRadius: 12,
-    padding: 16,
-    alignItems: "center",
-    marginBottom: 8,
-  },
-  calculateBtnText: {
-    color: "#FFF",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  bmiResultContainer: {
-    flexDirection: "row",
-    marginTop: 16,
-    paddingTop: 16,
-    borderTopWidth: 1,
-    borderTopColor: "#F1F5F9",
-    alignItems: "center",
-  },
-  bmiNumberBox: {
-    flex: 1,
-    alignItems: "flex-start",
-  },
-  bmiValue: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#1E293B",
-  },
-  bmiLabel: {
-    fontSize: 14,
-    color: "#64748B",
-  },
-  bmiStatusBox: {
-    flex: 1,
-    alignItems: "flex-end",
-    justifyContent: "center",
-  },
-  bmiStatusText: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-
-  highlightCard: {
-    backgroundColor: "#3B82F6",
-    borderRadius: 24,
-    padding: 24,
-    marginBottom: 24,
-    shadowColor: "#3B82F6",
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.3,
-    shadowRadius: 20,
-    elevation: 8,
-  },
-  highlightHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 16,
-  },
-  highlightTitle: {
-    color: "#FFF",
-    fontSize: 18,
-    fontWeight: "600",
-    marginLeft: 8,
-  },
-  highlightValue: {
-    color: "#FFF",
-    fontSize: 48,
-    fontWeight: "bold",
-    marginBottom: 8,
-  },
-  highlightSubtitle: {
-    color: "#DBEAFE",
-    fontSize: 16,
-  },
-  statsRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 24,
-  },
-  statCard: {
-    flex: 1,
-    backgroundColor: "#FFF",
-    borderRadius: 20,
-    padding: 20,
-    marginHorizontal: 6,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-    alignItems: "center",
-  },
-  iconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 12,
-  },
-  statValue: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#1E293B",
-    marginBottom: 4,
-  },
-  statLabel: {
-    fontSize: 14,
-    color: "#64748B",
-  },
-  chartContainer: {
-    backgroundColor: "#FFF",
-    borderRadius: 24,
-    padding: 24,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#1E293B",
-    marginBottom: 20,
-  },
-  chartWrapper: {
-    alignItems: "center",
-  },
-});

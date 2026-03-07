@@ -7,12 +7,12 @@ import {
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
+
 import { useAuthStore } from "../../store/authStore";
 
 export default function LoginScreen() {
@@ -41,30 +41,34 @@ export default function LoginScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="flex-1 bg-slate-50">
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.keyboardView}
+        className="flex-1 p-6"
       >
         <TouchableOpacity
-          style={styles.backButton}
+          className="w-10 h-10 rounded-full bg-slate-100 items-center justify-center mt-2 mb-5"
           onPress={() => router.back()}
         >
           <ArrowLeft size={24} color="#1E293B" />
         </TouchableOpacity>
 
-        <View style={styles.header}>
-          <Text style={styles.title}>Chào mừng trở lại!</Text>
-          <Text style={styles.subtitle}>
+        <View className="mb-8">
+          <Text className="text-3xl font-bold text-slate-800 mb-2">
+            Chào mừng trở lại!
+          </Text>
+          <Text className="text-base text-slate-500 leading-6">
             Đăng nhập để theo dõi sức khỏe và đồng bộ dữ liệu của bạn.
           </Text>
         </View>
 
-        <View style={styles.form}>
-          <View style={styles.inputContainer}>
-            <Mail size={20} color="#64748B" style={styles.inputIcon} />
+        <View className="flex-1">
+          <View
+            className="flex-row items-center bg-white border border-slate-200 rounded-2xl px-4 py-1 mb-4 shadow-sm"
+          >
+            <Mail size={20} color="#64748B" className="mr-3" />
             <TextInput
-              style={styles.input}
+              className="flex-1 py-3 text-base text-slate-800"
               placeholder="Email của bạn"
               placeholderTextColor="#94A3B8"
               keyboardType="email-address"
@@ -74,10 +78,12 @@ export default function LoginScreen() {
             />
           </View>
 
-          <View style={styles.inputContainer}>
-            <Lock size={20} color="#64748B" style={styles.inputIcon} />
+          <View
+            className="flex-row items-center bg-white border border-slate-200 rounded-2xl px-4 py-1 mb-4 shadow-sm"
+          >
+            <Lock size={20} color="#64748B" className="mr-3" />
             <TextInput
-              style={styles.input}
+              className="flex-1 py-3 text-base text-slate-800"
               placeholder="Mật khẩu"
               placeholderTextColor="#94A3B8"
               secureTextEntry
@@ -86,26 +92,30 @@ export default function LoginScreen() {
             />
           </View>
 
-          <TouchableOpacity style={styles.forgotPassword}>
-            <Text style={styles.forgotPasswordText}>Quên mật khẩu?</Text>
+          <TouchableOpacity className="self-end mb-6">
+            <Text className="text-blue-500 font-semibold text-sm">
+              Quên mật khẩu?
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.primaryButton}
+            className="bg-blue-500 rounded-2xl py-4 items-center mb-6 shadow-md shadow-blue-500/50"
             onPress={handleEmailLogin}
             disabled={isLoading}
           >
-            <Text style={styles.primaryButtonText}>Đăng nhập</Text>
+            <Text className="text-white text-base font-bold">Đăng nhập</Text>
           </TouchableOpacity>
 
-          <View style={styles.dividerContainer}>
-            <View style={styles.dividerLine} />
-            <Text style={styles.dividerText}>Hoặc tiếp tục với</Text>
-            <View style={styles.dividerLine} />
+          <View className="flex-row items-center mb-6">
+            <View className="flex-1 h-px bg-slate-200" />
+            <Text className="px-4 text-slate-400 text-sm">
+              Hoặc tiếp tục với
+            </Text>
+            <View className="flex-1 h-px bg-slate-200" />
           </View>
 
           <TouchableOpacity
-            style={styles.googleButton}
+            className="flex-row items-center justify-center bg-white border border-slate-200 rounded-2xl py-4 shadow-sm"
             onPress={handleGoogleLogin}
             disabled={isLoading}
           >
@@ -113,8 +123,8 @@ export default function LoginScreen() {
               <ActivityIndicator color="#1E293B" />
             ) : (
               <>
-                <Text style={styles.googleIcon}>G</Text>
-                <Text style={styles.googleButtonText}>
+                <Text className="text-xl font-bold text-red-500 mr-3">G</Text>
+                <Text className="text-base font-semibold text-slate-800">
                   Đăng nhập bằng Google
                 </Text>
               </>
@@ -122,157 +132,17 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>Chưa có tài khoản? </Text>
+        <View
+          className={`flex-row justify-center items-center pb-${Platform.OS === "android" ? "5" : "0"}`}
+        >
+          <Text className="text-slate-500 text-base">Chưa có tài khoản? </Text>
           <TouchableOpacity onPress={() => router.push("/(auth)/signup")}>
-            <Text style={styles.signupText}>Đăng ký ngay</Text>
+            <Text className="text-blue-500 text-base font-bold">
+              Đăng ký ngay
+            </Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#F8FAFC",
-  },
-  keyboardView: {
-    flex: 1,
-    padding: 24,
-  },
-  backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#F1F5F9",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 10,
-    marginBottom: 20,
-  },
-  header: {
-    marginBottom: 32,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#1E293B",
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: "#64748B",
-    lineHeight: 24,
-  },
-  form: {
-    flex: 1,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#FFF",
-    borderWidth: 1,
-    borderColor: "#E2E8F0",
-    borderRadius: 16,
-    paddingHorizontal: 16,
-    marginBottom: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.02,
-    shadowRadius: 4,
-    elevation: 1,
-  },
-  inputIcon: {
-    marginRight: 12,
-  },
-  input: {
-    flex: 1,
-    paddingVertical: 16,
-    fontSize: 16,
-    color: "#1E293B",
-  },
-  forgotPassword: {
-    alignSelf: "flex-end",
-    marginBottom: 24,
-  },
-  forgotPasswordText: {
-    color: "#3B82F6",
-    fontSize: 14,
-    fontWeight: "600",
-  },
-  primaryButton: {
-    backgroundColor: "#3B82F6",
-    borderRadius: 16,
-    paddingVertical: 16,
-    alignItems: "center",
-    marginBottom: 24,
-    shadowColor: "#3B82F6",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  primaryButtonText: {
-    color: "#FFF",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  dividerContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 24,
-  },
-  dividerLine: {
-    flex: 1,
-    height: 1,
-    backgroundColor: "#E2E8F0",
-  },
-  dividerText: {
-    color: "#94A3B8",
-    paddingHorizontal: 16,
-    fontSize: 14,
-  },
-  googleButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#FFF",
-    borderWidth: 1,
-    borderColor: "#E2E8F0",
-    borderRadius: 16,
-    paddingVertical: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.02,
-    shadowRadius: 4,
-    elevation: 1,
-  },
-  googleIcon: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#EA4335",
-    marginRight: 12,
-  },
-  googleButtonText: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#1E293B",
-  },
-  footer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingBottom: Platform.OS === "ios" ? 0 : 20,
-  },
-  footerText: {
-    color: "#64748B",
-    fontSize: 15,
-  },
-  signupText: {
-    color: "#3B82F6",
-    fontSize: 15,
-    fontWeight: "bold",
-  },
-});

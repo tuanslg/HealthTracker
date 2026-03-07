@@ -13,12 +13,12 @@ import React, { useEffect, useState } from "react";
 import {
   Alert,
   SafeAreaView,
-  StyleSheet,
   Switch,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+
 import { useAuthStore } from "../../store/authStore";
 
 // Notification handler for foreground notifications
@@ -142,53 +142,65 @@ export default function SettingsScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.title}>Cài đặt</Text>
-        <Text style={styles.subtitle}>Quản lý tuỳ chọn của bạn</Text>
+    <SafeAreaView className="flex-1 bg-slate-50">
+      <View className="flex-1 p-6 pt-10">
+        <Text className="text-3xl font-bold text-slate-800">Cài đặt</Text>
+        <Text className="text-base text-slate-500 mb-8 mt-1">
+          Quản lý tuỳ chọn của bạn
+        </Text>
 
         {/* Account Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Tài khoản</Text>
-          <View style={styles.settingCard}>
+        <View className="mb-8">
+          <Text className="text-lg font-bold text-slate-800 mb-4">
+            Tài khoản
+          </Text>
+          <View className="bg-white rounded-[20px] p-5 shadow-sm">
             {isGuest ? (
-              <View style={styles.accountGuestContainer}>
-                <View style={styles.accountInfo}>
+              <View className="flex-row items-center justify-between">
+                <View className="flex-row items-center">
                   <View
-                    style={[styles.iconBox, { backgroundColor: "#F1F5F9" }]}
+                    className="w-12 h-12 rounded-2xl bg-slate-100 justify-center items-center mr-4"
                   >
                     <User color="#64748B" size={24} />
                   </View>
                   <View>
-                    <Text style={styles.settingTitle}>Khách</Text>
-                    <Text style={styles.settingDescription}>
+                    <Text className="text-lg font-semibold text-slate-800 mb-1">
+                      Khách
+                    </Text>
+                    <Text className="text-sm text-slate-500">
                       Đăng nhập để đồng bộ
                     </Text>
                   </View>
                 </View>
                 <TouchableOpacity
-                  style={styles.loginButton}
+                  className="flex-row items-center bg-blue-500 px-4 py-2.5 rounded-xl"
                   onPress={() => router.push("/(auth)/login")}
                 >
                   <LogIn color="#FFF" size={16} />
-                  <Text style={styles.loginButtonText}>Đăng nhập</Text>
+                  <Text className="text-white font-semibold ml-2">
+                    Đăng nhập
+                  </Text>
                 </TouchableOpacity>
               </View>
             ) : (
-              <View style={styles.accountGuestContainer}>
-                <View style={styles.accountInfo}>
+              <View className="flex-row items-center justify-between">
+                <View className="flex-row items-center">
                   <View
-                    style={[styles.iconBox, { backgroundColor: "#DBEAFE" }]}
+                    className="w-12 h-12 rounded-2xl bg-blue-100 justify-center items-center mr-4"
                   >
                     <User color="#3B82F6" size={24} />
                   </View>
                   <View>
-                    <Text style={styles.settingTitle}>{user?.name}</Text>
-                    <Text style={styles.settingDescription}>{user?.email}</Text>
+                    <Text className="text-lg font-semibold text-slate-800 mb-1">
+                      {user?.name}
+                    </Text>
+                    <Text className="text-sm text-slate-500">
+                      {user?.email}
+                    </Text>
                   </View>
                 </View>
                 <TouchableOpacity
-                  style={styles.logoutButton}
+                  className="p-2.5 bg-red-100 rounded-xl"
                   onPress={() => {
                     logout();
                   }}
@@ -200,17 +212,23 @@ export default function SettingsScreen() {
           </View>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Nhắc nhở</Text>
+        <View className="mb-8">
+          <Text className="text-lg font-bold text-slate-800 mb-4">
+            Nhắc nhở
+          </Text>
 
-          <View style={styles.settingCard}>
-            <View style={styles.settingHeader}>
-              <View style={[styles.iconBox, { backgroundColor: "#DBEAFE" }]}>
+          <View className="bg-white rounded-[20px] p-5 shadow-sm">
+            <View className="flex-row items-center">
+              <View
+                className="w-12 h-12 rounded-2xl bg-blue-100 justify-center items-center mr-4"
+              >
                 <Droplet color="#3B82F6" size={24} />
               </View>
-              <View style={styles.settingTextContainer}>
-                <Text style={styles.settingTitle}>Drink Water</Text>
-                <Text style={styles.settingDescription}>
+              <View className="flex-1">
+                <Text className="text-lg font-semibold text-slate-800 mb-1">
+                  Drink Water
+                </Text>
+                <Text className="text-sm text-slate-500">
                   Remind me to drink water during the day
                 </Text>
               </View>
@@ -223,25 +241,21 @@ export default function SettingsScreen() {
             </View>
 
             {isReminderEnabled && (
-              <View style={styles.intervalContainer}>
-                <Text style={styles.intervalLabel}>Remind me every:</Text>
-                <View style={styles.intervalButtonGroup}>
+              <View className="mt-5 pt-5 border-t border-slate-100">
+                <Text className="text-sm font-medium text-slate-500 mb-3">
+                  Remind me every:
+                </Text>
+                <View className="flex-row justify-between">
                   {[1, 2, 4].map((hours) => (
                     <TouchableOpacity
                       key={hours}
-                      style={[
-                        styles.intervalButton,
-                        reminderInterval === hours &&
-                          styles.intervalButtonActive,
-                      ]}
+                      className={`flex-1 py-3 rounded-xl items-center mx-1 ${reminderInterval === hours
+                           ? "bg-blue-500" : "bg-slate-100"}`}
                       onPress={() => changeInterval(hours)}
                     >
                       <Text
-                        style={[
-                          styles.intervalButtonText,
-                          reminderInterval === hours &&
-                            styles.intervalButtonTextActive,
-                        ]}
+                        className={`text-base font-semibold ${reminderInterval === hours
+                             ? "text-white" : "text-slate-500"}`}
                       >
                         {hours}h
                       </Text>
@@ -253,12 +267,14 @@ export default function SettingsScreen() {
           </View>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>General</Text>
-          <TouchableOpacity style={styles.generalItem}>
-            <View style={styles.generalItemLeft}>
+        <View className="mb-8">
+          <Text className="text-lg font-bold text-slate-800 mb-4">General</Text>
+          <TouchableOpacity
+            className="flex-row items-center justify-between bg-white p-5 rounded-2xl mb-3 shadow-sm"
+          >
+            <View className="flex-row items-center">
               <Bell color="#64748B" size={20} />
-              <Text style={styles.generalItemText}>
+              <Text className="text-base font-medium text-slate-800 ml-3">
                 Notification Permissions
               </Text>
             </View>
@@ -269,151 +285,3 @@ export default function SettingsScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#F8FAFC",
-  },
-  content: {
-    flex: 1,
-    padding: 24,
-    paddingTop: 40,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#1E293B",
-  },
-  subtitle: {
-    fontSize: 16,
-    color: "#64748B",
-    marginBottom: 32,
-    marginTop: 4,
-  },
-  section: {
-    marginBottom: 32,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#1E293B",
-    marginBottom: 16,
-  },
-  settingCard: {
-    backgroundColor: "#FFF",
-    borderRadius: 20,
-    padding: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  settingHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  iconBox: {
-    width: 48,
-    height: 48,
-    borderRadius: 16,
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 16,
-  },
-  settingTextContainer: {
-    flex: 1,
-  },
-  settingTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#1E293B",
-    marginBottom: 4,
-  },
-  settingDescription: {
-    fontSize: 14,
-    color: "#64748B",
-  },
-  accountGuestContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  accountInfo: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  loginButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#3B82F6",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 12,
-  },
-  loginButtonText: {
-    color: "#FFF",
-    fontWeight: "600",
-    marginLeft: 6,
-  },
-  logoutButton: {
-    padding: 8,
-    borderRadius: 12,
-    backgroundColor: "#FEE2E2",
-  },
-  intervalContainer: {
-    marginTop: 20,
-    paddingTop: 20,
-    borderTopWidth: 1,
-    borderTopColor: "#F1F5F9",
-  },
-  intervalLabel: {
-    fontSize: 14,
-    color: "#64748B",
-    marginBottom: 12,
-    fontWeight: "500",
-  },
-  intervalButtonGroup: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  intervalButton: {
-    flex: 1,
-    paddingVertical: 12,
-    backgroundColor: "#F1F5F9",
-    borderRadius: 12,
-    alignItems: "center",
-    marginHorizontal: 4,
-  },
-  intervalButtonActive: {
-    backgroundColor: "#3B82F6",
-  },
-  intervalButtonText: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#64748B",
-  },
-  intervalButtonTextActive: {
-    color: "#FFF",
-  },
-  generalItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "#FFF",
-    padding: 20,
-    borderRadius: 16,
-    marginBottom: 12,
-  },
-  generalItemLeft: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  generalItemText: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#1E293B",
-    marginLeft: 12,
-  },
-});
