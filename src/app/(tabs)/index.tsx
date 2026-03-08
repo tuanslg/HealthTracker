@@ -14,7 +14,7 @@ import {
   View,
 } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
-import { SafeAreaView } from "react-native-safe-area-context";
+import ScreenWrapper from "../../components/ScreenWrapper";
 import { useAuthStore } from "../../store/authStore";
 import { useHealthStore } from "../../store/healthStore";
 import { getBmiCategory } from "../../utils/bmi";
@@ -96,7 +96,11 @@ export default function Dashboard() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
+    <ScreenWrapper
+      className="flex-1 bg-slate-50"
+      statusBarStyle="dark"
+      statusBarColor="transparent"
+    >
       <KeyboardAvoidingView
         className="flex-1"
         behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -267,6 +271,6 @@ export default function Dashboard() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </ScreenWrapper>
   );
 }

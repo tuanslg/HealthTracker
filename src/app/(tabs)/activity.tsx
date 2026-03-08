@@ -2,7 +2,7 @@ import { Award, Footprints, Target } from "lucide-react-native";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Platform, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import ScreenWrapper from "../../components/ScreenWrapper";
 import { useHealthStore } from "../../store/healthStore";
 
 export default function ActivityScreen() {
@@ -20,7 +20,7 @@ export default function ActivityScreen() {
   const progressPercentage = Math.min((totalSteps / DAILY_GOAL) * 100, 100);
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
+    <ScreenWrapper className="flex-1 bg-slate-50">
       <View className="flex-1 p-6 pt-10">
         <View className="mb-8">
           <Text className="text-3xl font-bold text-slate-800">
@@ -95,6 +95,6 @@ export default function ActivityScreen() {
           )}
         </View>
       </View>
-    </SafeAreaView>
+    </ScreenWrapper>
   );
 }

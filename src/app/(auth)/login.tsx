@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import ScreenWrapper from "../../components/ScreenWrapper";
 
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../../store/authStore";
@@ -43,7 +43,7 @@ export default function LoginScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
+    <ScreenWrapper className="flex-1 bg-slate-50">
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         className="flex-1 p-6"
@@ -145,6 +145,6 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </ScreenWrapper>
   );
 }

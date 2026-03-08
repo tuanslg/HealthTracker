@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import ScreenWrapper from "../components/ScreenWrapper";
 
 import { useAuthStore } from "../store/authStore";
 import { getBmiCategory } from "../utils/bmi";
@@ -119,7 +119,7 @@ export default function ProfileScreen() {
   const borderColor = bmiCategoryResult ? bmiCategoryResult.color : "#94A3B8";
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
+    <ScreenWrapper className="flex-1 bg-slate-50">
       <View className="px-4 py-3 pb-4 flex-row items-center bg-white border-b border-slate-100">
         <TouchableOpacity onPress={() => router.back()} className="p-2 mr-2">
           <ArrowLeft size={24} color="#1E293B" />
@@ -188,6 +188,6 @@ export default function ProfileScreen() {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </ScreenWrapper>
   );
 }
