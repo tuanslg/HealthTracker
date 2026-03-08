@@ -82,5 +82,18 @@
     "dashboard": "Dashboard",
     "activity": "Activity",
     "settings": "Settings"
+  },
+  "profile": {
+    "title": "Profile",
+    "personal_info": "Personal Information",
+    "name": "Name",
+    "email": "Email",
+    "bmi_score": "BMI Score",
+    "change_avatar": "Change Avatar",
+    "take_photo": "Take Photo",
+    "choose_library": "Choose from Library",
+    "cancel": "Cancel",
+    "guest": "Guest user",
+    "no_bmi": "No BMI recorded"
   }
 }

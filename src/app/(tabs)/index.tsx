@@ -1,8 +1,10 @@
+import { router, useFocusEffect } from "expo-router";
 import * as SQLite from "expo-sqlite";
 import { Activity, Flame, Footprints, Heart } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  Image,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -13,20 +15,29 @@ import {
 } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useAuthStore } from "../../store/authStore";
 import { useHealthStore } from "../../store/healthStore";
+import { getBmiCategory } from "../../utils/bmi";
 
 export default function Dashboard() {
   const { dailySteps, weeklySteps, initializePedometer } = useHealthStore();
+  const { user } = useAuthStore();
   const { t } = useTranslation();
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
   const [bmi, setBmi] = useState<string | null>(null);
   const [bmiCategory, setBmiCategory] = useState({ text: "", color: "" });
+  const [avatarUri, setAvatarUri] = useState<string | null>(null);
 
   useEffect(() => {
     initializePedometer();
-    loadProfileData();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      loadProfileData();
+    }, []),
+  );
 
   const loadProfileData = async () => {
     try {
@@ -41,24 +52,15 @@ export default function Dashboard() {
       if (result) {
         if (result.weight) setWeight(result.weight.toString());
         if (result.height) setHeight(result.height.toString());
+        if (result.avatar) setAvatarUri(result.avatar);
         if (result.bmi) {
           setBmi(result.bmi.toFixed(1));
-          setBmiCategory(getBmiCategory(result.bmi));
+          setBmiCategory(getBmiCategory(result.bmi, t));
         }
       }
     } catch (error) {
       console.log("Error loading DB", error);
     }
-  };
-
-  const getBmiCategory = (bmiValue: number) => {
-    if (bmiValue < 18.5)
-      return { text: t("dashboard.bmi_thin"), color: "#3B82F6" }; // Xanh lam
-    if (bmiValue >= 18.5 && bmiValue < 24.9)
-      return { text: t("dashboard.bmi_normal"), color: "#22C55E" }; // Xanh lá
-    if (bmiValue >= 25 && bmiValue < 29.9)
-      return { text: t("dashboard.bmi_overweight"), color: "#F59E0B" }; // Vàng cam
-    return { text: t("dashboard.bmi_obese"), color: "#EF4444" }; // Đỏ
   };
 
   const calculateBMI = async () => {
@@ -68,7 +70,7 @@ export default function Dashboard() {
     if (w > 0 && h > 0) {
       const calculatedBmi = w / (h * h);
       setBmi(calculatedBmi.toFixed(1));
-      setBmiCategory(getBmiCategory(calculatedBmi));
+      setBmiCategory(getBmiCategory(calculatedBmi, t));
 
       try {
         const db = await SQLite.openDatabaseAsync("health.db");
@@ -114,8 +116,19 @@ export default function Dashboard() {
                 {t("dashboard.subtitle")}
               </Text>
             </View>
-            <TouchableOpacity className="w-12 h-12 rounded-full bg-blue-100 justify-center items-center">
-              <Text className="text-blue-500 font-bold text-base">ME</Text>
+            <TouchableOpacity
+              onPress={() => router.push("/profile")}
+              className="w-12 h-12 flex-row rounded-full bg-blue-100 justify-center items-center overflow-hidden border-2"
+              style={{ borderColor: bmiCategory.color || "#DBEAFE" }}
+            >
+              {avatarUri || user?.avatar ? (
+                <Image
+                  source={{ uri: avatarUri || user?.avatar }}
+                  className="w-full h-full"
+                />
+              ) : (
+                <Text className="text-blue-500 font-bold text-base">ME</Text>
+              )}
             </TouchableOpacity>
           </View>
 

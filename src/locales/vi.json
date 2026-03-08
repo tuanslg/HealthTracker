@@ -82,5 +82,18 @@
     "dashboard": "Trang chủ",
     "activity": "Hoạt động",
     "settings": "Cài đặt"
+  },
+  "profile": {
+    "title": "Hồ sơ",
+    "personal_info": "Thông tin cá nhân",
+    "name": "Tên",
+    "email": "Email",
+    "bmi_score": "Chỉ số BMI",
+    "change_avatar": "Thay đổi ảnh đại diện",
+    "take_photo": "Chụp ảnh",
+    "choose_library": "Chọn từ thư viện",
+    "cancel": "Huỷ",
+    "guest": "Người dùng Khách",
+    "no_bmi": "Chưa có dữ liệu BMI"
   }
 }
