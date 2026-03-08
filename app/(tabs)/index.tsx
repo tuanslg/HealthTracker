@@ -1,10 +1,10 @@
 import * as SQLite from "expo-sqlite";
 import { Activity, Flame, Footprints, Heart } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   ScrollView,
   Text,
   TextInput,
@@ -12,8 +12,10 @@ import {
   View,
 } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Dashboard() {
+  const { t } = useTranslation();
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
   const [bmi, setBmi] = useState<string | null>(null);
@@ -58,12 +60,12 @@ export default function Dashboard() {
 
   const getBmiCategory = (bmiValue: number) => {
     if (bmiValue < 18.5)
-      return { text: "Thin / Underweight", color: "#3B82F6" }; // Xanh lam
+      return { text: t("dashboard.bmi_thin"), color: "#3B82F6" }; // Xanh lam
     if (bmiValue >= 18.5 && bmiValue < 24.9)
-      return { text: "Normal", color: "#22C55E" }; // Xanh lá
+      return { text: t("dashboard.bmi_normal"), color: "#22C55E" }; // Xanh lá
     if (bmiValue >= 25 && bmiValue < 29.9)
-      return { text: "Overweight", color: "#F59E0B" }; // Vàng cam
-    return { text: "Obese", color: "#EF4444" }; // Đỏ
+      return { text: t("dashboard.bmi_overweight"), color: "#F59E0B" }; // Vàng cam
+    return { text: t("dashboard.bmi_obese"), color: "#EF4444" }; // Đỏ
   };
 
   const calculateBMI = async () => {
@@ -107,15 +109,16 @@ export default function Dashboard() {
         <ScrollView
           contentContainerClassName="p-6 pt-10"
           keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
         >
           {/* Header Section */}
           <View className="flex-row justify-between items-center mb-8">
             <View>
               <Text className="text-2xl font-bold text-slate-800">
-                Good Morning!
+                {t("dashboard.greeting")}
               </Text>
               <Text className="text-base text-slate-500 mt-1">
-                Let's check your health today
+                {t("dashboard.subtitle")}
               </Text>
             </View>
             <TouchableOpacity className="w-12 h-12 rounded-full bg-blue-100 justify-center items-center">
@@ -128,14 +131,14 @@ export default function Dashboard() {
             <View className="flex-row items-center mb-5">
               <Activity color="#6366F1" size={24} />
               <Text className="text-lg font-bold text-slate-800 ml-2">
-                Body Mass Index (BMI)
+                {t("dashboard.bmi_title")}
               </Text>
             </View>
 
             <View className="flex-row justify-between mb-4">
               <View className="flex-1 mx-1">
                 <Text className="text-sm text-slate-500 mb-2 font-medium">
-                  Weight (kg)
+                  {t("dashboard.weight")}
                 </Text>
                 <TextInput
                   className="bg-slate-100 rounded-xl p-4 text-base text-slate-800 font-semibold"
@@ -147,7 +150,7 @@ export default function Dashboard() {
               </View>
               <View className="flex-1 mx-1">
                 <Text className="text-sm text-slate-500 mb-2 font-medium">
-                  Height (cm)
+                  {t("dashboard.height")}
                 </Text>
                 <TextInput
                   className="bg-slate-100 rounded-xl p-4 text-base text-slate-800 font-semibold"
@@ -164,7 +167,7 @@ export default function Dashboard() {
               onPress={calculateBMI}
             >
               <Text className="text-white text-base font-bold">
-                Calculate & Save BMI
+                {t("dashboard.calculate_bmi")}
               </Text>
             </TouchableOpacity>
 
@@ -174,7 +177,9 @@ export default function Dashboard() {
                   <Text className="text-3xl font-bold text-slate-800">
                     {bmi}
                   </Text>
-                  <Text className="text-sm text-slate-500">BMI Score</Text>
+                  <Text className="text-sm text-slate-500">
+                    {t("dashboard.bmi_score")}
+                  </Text>
                 </View>
                 <View className="flex-1 items-end justify-center">
                   <Text
@@ -193,11 +198,13 @@ export default function Dashboard() {
             <View className="flex-row items-center mb-4">
               <Footprints color="#FFF" size={24} />
               <Text className="text-white text-lg font-semibold ml-2">
-                Daily Steps
+                {t("dashboard.daily_steps")}
               </Text>
             </View>
             <Text className="text-white text-5xl font-bold mb-2">8,245</Text>
-            <Text className="text-blue-100 text-base">Goal: 10,000 steps</Text>
+            <Text className="text-blue-100 text-base">
+              {t("dashboard.goal")}
+            </Text>
           </View>
 
           {/* Stats Grid */}
@@ -209,7 +216,9 @@ export default function Dashboard() {
               <Text className="text-xl font-bold text-slate-800 mb-1">
                 72 bpm
               </Text>
-              <Text className="text-sm text-slate-500">Heart Rate</Text>
+              <Text className="text-sm text-slate-500">
+                {t("dashboard.heart_rate")}
+              </Text>
             </View>
             <View className="flex-1 bg-white rounded-3xl p-5 mx-1.5 items-center shadow-sm">
               <View className="w-12 h-12 rounded-full bg-amber-100 justify-center items-center mb-3">
@@ -218,14 +227,16 @@ export default function Dashboard() {
               <Text className="text-xl font-bold text-slate-800 mb-1">
                 450 kcal
               </Text>
-              <Text className="text-sm text-slate-500">Burned</Text>
+              <Text className="text-sm text-slate-500">
+                {t("dashboard.burned")}
+              </Text>
             </View>
           </View>
 
           {/* Chart Section */}
           <View className="bg-white rounded-3xl p-6 shadow-sm mb-4">
             <Text className="text-lg font-bold text-slate-800 mb-5">
-              Activity This Week
+              {t("dashboard.activity_this_week")}
             </Text>
             <View className="items-center">
               <BarChart

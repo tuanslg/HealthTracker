@@ -6,23 +6,25 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
+import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../../store/authStore";
 
 export default function LoginScreen() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { loginWithGoogle, isLoading, login } = useAuthStore();
 
   const handleEmailLogin = () => {
     if (!email || !password) {
-      Alert.alert("Lỗi", "Vui lòng nhập đầy đủ email và mật khẩu!");
+      Alert.alert(t("auth.error"), t("auth.error_missing_email"));
       return;
     }
     // Giả lập call API login
@@ -55,21 +57,19 @@ export default function LoginScreen() {
 
         <View className="mb-8">
           <Text className="text-3xl font-bold text-slate-800 mb-2">
-            Chào mừng trở lại!
+            {t("auth.welcome_back")}
           </Text>
           <Text className="text-base text-slate-500 leading-6">
-            Đăng nhập để theo dõi sức khỏe và đồng bộ dữ liệu của bạn.
+            {t("auth.login_desc")}
           </Text>
         </View>
 
         <View className="flex-1">
-          <View
-            className="flex-row items-center bg-white border border-slate-200 rounded-2xl px-4 py-1 mb-4 shadow-sm"
-          >
+          <View className="flex-row items-center bg-white border border-slate-200 rounded-2xl px-4 py-1 mb-4 shadow-sm">
             <Mail size={20} color="#64748B" className="mr-3" />
             <TextInput
               className="flex-1 py-3 text-base text-slate-800"
-              placeholder="Email của bạn"
+              placeholder={t("auth.email_placeholder")}
               placeholderTextColor="#94A3B8"
               keyboardType="email-address"
               autoCapitalize="none"
@@ -78,13 +78,11 @@ export default function LoginScreen() {
             />
           </View>
 
-          <View
-            className="flex-row items-center bg-white border border-slate-200 rounded-2xl px-4 py-1 mb-4 shadow-sm"
-          >
+          <View className="flex-row items-center bg-white border border-slate-200 rounded-2xl px-4 py-1 mb-4 shadow-sm">
             <Lock size={20} color="#64748B" className="mr-3" />
             <TextInput
               className="flex-1 py-3 text-base text-slate-800"
-              placeholder="Mật khẩu"
+              placeholder={t("auth.password_placeholder")}
               placeholderTextColor="#94A3B8"
               secureTextEntry
               value={password}
@@ -94,7 +92,7 @@ export default function LoginScreen() {
 
           <TouchableOpacity className="self-end mb-6">
             <Text className="text-blue-500 font-semibold text-sm">
-              Quên mật khẩu?
+              {t("auth.forgot_password")}
             </Text>
           </TouchableOpacity>
 
@@ -103,13 +101,15 @@ export default function LoginScreen() {
             onPress={handleEmailLogin}
             disabled={isLoading}
           >
-            <Text className="text-white text-base font-bold">Đăng nhập</Text>
+            <Text className="text-white text-base font-bold">
+              {t("auth.login_btn")}
+            </Text>
           </TouchableOpacity>
 
           <View className="flex-row items-center mb-6">
             <View className="flex-1 h-px bg-slate-200" />
             <Text className="px-4 text-slate-400 text-sm">
-              Hoặc tiếp tục với
+              {t("auth.or_continue_with")}
             </Text>
             <View className="flex-1 h-px bg-slate-200" />
           </View>
@@ -125,7 +125,7 @@ export default function LoginScreen() {
               <>
                 <Text className="text-xl font-bold text-red-500 mr-3">G</Text>
                 <Text className="text-base font-semibold text-slate-800">
-                  Đăng nhập bằng Google
+                  {t("auth.login_google")}
                 </Text>
               </>
             )}
@@ -135,10 +135,12 @@ export default function LoginScreen() {
         <View
           className={`flex-row justify-center items-center pb-${Platform.OS === "android" ? "5" : "0"}`}
         >
-          <Text className="text-slate-500 text-base">Chưa có tài khoản? </Text>
+          <Text className="text-slate-500 text-base">
+            {t("auth.no_account")}{" "}
+          </Text>
           <TouchableOpacity onPress={() => router.push("/(auth)/signup")}>
             <Text className="text-blue-500 text-base font-bold">
-              Đăng ký ngay
+              {t("auth.signup_now")}
             </Text>
           </TouchableOpacity>
         </View>

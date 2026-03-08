@@ -1,9 +1,12 @@
 import { Pedometer } from "expo-sensors";
 import { Award, Footprints, Target } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
-import { Platform, SafeAreaView, Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
+import { Platform, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ActivityScreen() {
+  const { t } = useTranslation();
   const [isPedometerAvailable, setIsPedometerAvailable] = useState("checking");
   const [pastStepCount, setPastStepCount] = useState(0);
   const [currentStepCount, setCurrentStepCount] = useState(0);
@@ -67,10 +70,10 @@ export default function ActivityScreen() {
       <View className="flex-1 p-6 pt-10">
         <View className="mb-8">
           <Text className="text-3xl font-bold text-slate-800">
-            Daily Activity
+            {t("activity.title")}
           </Text>
           <Text className="text-base text-slate-500 mt-1">
-            Track your daily movement
+            {t("activity.subtitle")}
           </Text>
         </View>
 
@@ -83,7 +86,7 @@ export default function ActivityScreen() {
             {totalSteps.toLocaleString()}
           </Text>
           <Text className="text-lg text-slate-500 mb-8 font-medium">
-            Steps Today
+            {t("activity.steps_today")}
           </Text>
 
           {/* Progress Bar Container */}
@@ -110,7 +113,7 @@ export default function ActivityScreen() {
             <View className="flex-row items-center bg-amber-100 px-4 py-2 rounded-full mt-4">
               <Award color="#F59E0B" size={20} />
               <Text className="text-amber-700 font-bold text-sm ml-2">
-                Daily Goal Achieved!
+                {t("activity.goal_achieved")}
               </Text>
             </View>
           )}
@@ -118,18 +121,22 @@ export default function ActivityScreen() {
 
         <View className="mt-6 items-center">
           <Text className="text-sm text-slate-400 font-medium">
-            Sensor Status:{" "}
+            {t("activity.sensor_status")}
             {isPedometerAvailable === "checking"
-              ? "Checking availability..."
+              ? t("activity.sensor_checking")
               : isPedometerAvailable === "true"
-                ? "Active - Sensor Working"
+                ? t("activity.sensor_active")
                 : isPedometerAvailable === "false"
-                  ? "Not Available on this device"
-                  : isPedometerAvailable}
+                  ? t("activity.sensor_not_available")
+                  : isPedometerAvailable === "Permission Denied"
+                    ? t("activity.permission_denied")
+                    : isPedometerAvailable === "Error"
+                      ? t("activity.sensor_error")
+                      : isPedometerAvailable}
           </Text>
           {Platform.OS === "ios" && (
             <Text className="text-xs text-slate-300 mt-2 text-center">
-              (Note: Physical movement may be required to trigger updates)
+              {t("activity.note")}
             </Text>
           )}
         </View>

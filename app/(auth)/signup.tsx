@@ -6,16 +6,18 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
+import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../../store/authStore";
 
 export default function SignupScreen() {
+  const { t } = useTranslation();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +25,7 @@ export default function SignupScreen() {
 
   const handleSignup = () => {
     if (!name || !email || !password) {
-      Alert.alert("Lỗi", "Vui lòng nhập đầy đủ thông tin!");
+      Alert.alert(t("auth.error"), t("auth.error_missing_info"));
       return;
     }
     // Giả lập tạo tài khoản và login
@@ -56,34 +58,30 @@ export default function SignupScreen() {
 
         <View className="mb-8">
           <Text className="text-3xl font-bold text-slate-800 mb-2">
-            Tạo tài khoản
+            {t("auth.create_account")}
           </Text>
           <Text className="text-base text-slate-500 leading-6">
-            Bắt đầu hành trình chăm sóc sức khỏe của bạn ngay hôm nay!
+            {t("auth.signup_desc")}
           </Text>
         </View>
 
         <View className="flex-1">
-          <View
-            className="flex-row items-center bg-white border border-slate-200 rounded-2xl px-4 py-1 mb-4 shadow-sm"
-          >
+          <View className="flex-row items-center bg-white border border-slate-200 rounded-2xl px-4 py-1 mb-4 shadow-sm">
             <User size={20} color="#64748B" className="mr-3" />
             <TextInput
               className="flex-1 py-3 text-base text-slate-800"
-              placeholder="Họ và tên"
+              placeholder={t("auth.name_placeholder")}
               placeholderTextColor="#94A3B8"
               value={name}
               onChangeText={setName}
             />
           </View>
 
-          <View
-            className="flex-row items-center bg-white border border-slate-200 rounded-2xl px-4 py-1 mb-4 shadow-sm"
-          >
+          <View className="flex-row items-center bg-white border border-slate-200 rounded-2xl px-4 py-1 mb-4 shadow-sm">
             <Mail size={20} color="#64748B" className="mr-3" />
             <TextInput
               className="flex-1 py-3 text-base text-slate-800"
-              placeholder="Email của bạn"
+              placeholder={t("auth.email_placeholder")}
               placeholderTextColor="#94A3B8"
               keyboardType="email-address"
               autoCapitalize="none"
@@ -92,13 +90,11 @@ export default function SignupScreen() {
             />
           </View>
 
-          <View
-            className="flex-row items-center bg-white border border-slate-200 rounded-2xl px-4 py-1 mb-4 shadow-sm"
-          >
+          <View className="flex-row items-center bg-white border border-slate-200 rounded-2xl px-4 py-1 mb-4 shadow-sm">
             <Lock size={20} color="#64748B" className="mr-3" />
             <TextInput
               className="flex-1 py-3 text-base text-slate-800"
-              placeholder="Mật khẩu"
+              placeholder={t("auth.password_placeholder")}
               placeholderTextColor="#94A3B8"
               secureTextEntry
               value={password}
@@ -111,13 +107,15 @@ export default function SignupScreen() {
             onPress={handleSignup}
             disabled={isLoading}
           >
-            <Text className="text-white text-base font-bold">Đăng ký ngay</Text>
+            <Text className="text-white text-base font-bold">
+              {t("auth.signup_btn")}
+            </Text>
           </TouchableOpacity>
 
           <View className="flex-row items-center mb-6">
             <View className="flex-1 h-px bg-slate-200" />
             <Text className="px-4 text-slate-400 text-sm">
-              Hoặc đăng ký với
+              {t("auth.or_signup_with")}
             </Text>
             <View className="flex-1 h-px bg-slate-200" />
           </View>
@@ -133,7 +131,7 @@ export default function SignupScreen() {
               <>
                 <Text className="text-xl font-bold text-red-500 mr-3">G</Text>
                 <Text className="text-base font-semibold text-slate-800">
-                  Đăng ký bằng Google
+                  {t("auth.signup_google")}
                 </Text>
               </>
             )}
@@ -143,9 +141,13 @@ export default function SignupScreen() {
         <View
           className={`flex-row justify-center items-center pb-${Platform.OS === "android" ? "5" : "0"}`}
         >
-          <Text className="text-slate-500 text-base">Đã có tài khoản? </Text>
+          <Text className="text-slate-500 text-base">
+            {t("auth.already_have_account")}{" "}
+          </Text>
           <TouchableOpacity onPress={() => router.push("/(auth)/login")}>
-            <Text className="text-blue-500 text-base font-bold">Đăng nhập</Text>
+            <Text className="text-blue-500 text-base font-bold">
+              {t("auth.login_here")}
+            </Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
