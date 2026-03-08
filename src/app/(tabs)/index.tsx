@@ -13,25 +13,18 @@ import {
 } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useHealthStore } from "../../store/healthStore";
 
 export default function Dashboard() {
+  const { dailySteps, weeklySteps, initializePedometer } = useHealthStore();
   const { t } = useTranslation();
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
   const [bmi, setBmi] = useState<string | null>(null);
   const [bmiCategory, setBmiCategory] = useState({ text: "", color: "" });
 
-  const stepData = [
-    { value: 4500, label: "Mon" },
-    { value: 6000, label: "Tue" },
-    { value: 8000, label: "Wed", frontColor: "#4ADE80" },
-    { value: 5000, label: "Thu" },
-    { value: 7500, label: "Fri" },
-    { value: 9000, label: "Sat", frontColor: "#4ADE80" },
-    { value: 6500, label: "Sun" },
-  ];
-
   useEffect(() => {
+    initializePedometer();
     loadProfileData();
   }, []);
 
@@ -201,7 +194,9 @@ export default function Dashboard() {
                 {t("dashboard.daily_steps")}
               </Text>
             </View>
-            <Text className="text-white text-5xl font-bold mb-2">8,245</Text>
+            <Text className="text-white text-5xl font-bold mb-2">
+              {dailySteps.toLocaleString()}
+            </Text>
             <Text className="text-blue-100 text-base">
               {t("dashboard.goal")}
             </Text>
@@ -240,7 +235,11 @@ export default function Dashboard() {
             </Text>
             <View className="items-center">
               <BarChart
-                data={stepData}
+                data={
+                  weeklySteps.length > 0
+                    ? weeklySteps
+                    : [{ value: 0, label: "" }]
+                }
                 barWidth={22}
                 noOfSections={4}
                 barBorderRadius={4}

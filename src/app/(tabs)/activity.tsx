@@ -1,68 +1,22 @@
-import { Pedometer } from "expo-sensors";
 import { Award, Footprints, Target } from "lucide-react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Platform, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useHealthStore } from "../../store/healthStore";
 
 export default function ActivityScreen() {
+  const { dailySteps, isPedometerAvailable, initializePedometer } =
+    useHealthStore();
   const { t } = useTranslation();
-  const [isPedometerAvailable, setIsPedometerAvailable] = useState("checking");
-  const [pastStepCount, setPastStepCount] = useState(0);
-  const [currentStepCount, setCurrentStepCount] = useState(0);
 
   const DAILY_GOAL = 10000;
 
   useEffect(() => {
-    let subscription: Pedometer.Subscription | null = null;
-
-    const subscribe = async () => {
-      try {
-        const isAvailable = await Pedometer.isAvailableAsync();
-        setIsPedometerAvailable(String(isAvailable));
-
-        if (isAvailable) {
-          const permission = await Pedometer.requestPermissionsAsync();
-          if (permission.status === "granted") {
-            const end = new Date();
-            const start = new Date();
-            start.setHours(0, 0, 0, 0);
-
-            try {
-              const pastStepCountResult = await Pedometer.getStepCountAsync(
-                start,
-                end,
-              );
-              if (pastStepCountResult) {
-                setPastStepCount(pastStepCountResult.steps);
-              }
-            } catch (error) {
-              console.log("Could not get past step count:", error);
-            }
-
-            subscription = Pedometer.watchStepCount((result) => {
-              setCurrentStepCount(result.steps);
-            });
-          } else {
-            setIsPedometerAvailable("Permission Denied");
-          }
-        }
-      } catch (err) {
-        console.log("Pedometer error:", err);
-        setIsPedometerAvailable("Error");
-      }
-    };
-
-    subscribe();
-
-    return () => {
-      if (subscription && subscription.remove) {
-        subscription.remove();
-      }
-    };
+    initializePedometer();
   }, []);
 
-  const totalSteps = pastStepCount + currentStepCount;
+  const totalSteps = dailySteps;
   const progressPercentage = Math.min((totalSteps / DAILY_GOAL) * 100, 100);
 
   return (
